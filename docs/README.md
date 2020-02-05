@@ -8,7 +8,10 @@ onTrack is an application for people trying to be in the moment. This app helps 
 * Families spending more quality time together.
 
 ### User stories
-* [user stories](user-stories.md)
+[User stories](user-stories.md)
+
+## Design Documentation
+[WireFrame Diagram](wireframe.md)
 
 ## External services
 * freeabqimages.com for images of ABQ
