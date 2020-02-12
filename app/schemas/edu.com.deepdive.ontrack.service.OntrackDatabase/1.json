@@ -1,0 +1,247 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "916df1a05e10b0306377a6bfb1c95f89",
+    "entities": [
+      {
+        "tableName": "Image",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`image_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `path` TEXT COLLATE NOCASE, `title` TEXT COLLATE NOCASE)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "image_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "path",
+            "columnName": "path",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "image_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Image_path",
+            "unique": true,
+            "columnNames": [
+              "path"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Image_path` ON `${TABLE_NAME}` (`path`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Puzzle",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`puzzle_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `image_id` INTEGER NOT NULL, `start` INTEGER, `end` INTEGER, `success` INTEGER NOT NULL, FOREIGN KEY(`image_id`) REFERENCES `Image`(`image_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "puzzle_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "success",
+            "columnName": "success",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "puzzle_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Puzzle_image_id",
+            "unique": false,
+            "columnNames": [
+              "image_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Puzzle_image_id` ON `${TABLE_NAME}` (`image_id`)"
+          },
+          {
+            "name": "index_Puzzle_start",
+            "unique": false,
+            "columnNames": [
+              "start"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Puzzle_start` ON `${TABLE_NAME}` (`start`)"
+          },
+          {
+            "name": "index_Puzzle_end",
+            "unique": false,
+            "columnNames": [
+              "end"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Puzzle_end` ON `${TABLE_NAME}` (`end`)"
+          },
+          {
+            "name": "index_Puzzle_success",
+            "unique": false,
+            "columnNames": [
+              "success"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Puzzle_success` ON `${TABLE_NAME}` (`success`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Image",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "image_id"
+            ],
+            "referencedColumns": [
+              "image_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Task",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`task_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `puzzle_id` INTEGER NOT NULL, `start` INTEGER, `end` INTEGER, `success` INTEGER NOT NULL, `block` INTEGER NOT NULL, FOREIGN KEY(`puzzle_id`) REFERENCES `Puzzle`(`puzzle_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "task_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "puzzle",
+            "columnName": "puzzle_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "start",
+            "columnName": "start",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "end",
+            "columnName": "end",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "success",
+            "columnName": "success",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "block",
+            "columnName": "block",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "task_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Task_puzzle_id",
+            "unique": false,
+            "columnNames": [
+              "puzzle_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Task_puzzle_id` ON `${TABLE_NAME}` (`puzzle_id`)"
+          },
+          {
+            "name": "index_Task_start",
+            "unique": false,
+            "columnNames": [
+              "start"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Task_start` ON `${TABLE_NAME}` (`start`)"
+          },
+          {
+            "name": "index_Task_end",
+            "unique": false,
+            "columnNames": [
+              "end"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Task_end` ON `${TABLE_NAME}` (`end`)"
+          },
+          {
+            "name": "index_Task_success",
+            "unique": false,
+            "columnNames": [
+              "success"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Task_success` ON `${TABLE_NAME}` (`success`)"
+          },
+          {
+            "name": "index_Task_block",
+            "unique": false,
+            "columnNames": [
+              "block"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Task_block` ON `${TABLE_NAME}` (`block`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Puzzle",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "puzzle_id"
+            ],
+            "referencedColumns": [
+              "puzzle_id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '916df1a05e10b0306377a6bfb1c95f89')"
+    ]
+  }
+}

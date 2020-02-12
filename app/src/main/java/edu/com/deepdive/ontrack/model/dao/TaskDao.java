@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+import edu.com.deepdive.ontrack.model.entity.Puzzle;
 import edu.com.deepdive.ontrack.model.entity.Task;
 import io.reactivex.Single;
 import java.util.Collection;
@@ -28,5 +29,5 @@ public interface TaskDao {
   Single<Integer> delete(Task... tasks);
 
   @Query("SELECT * FROM Puzzle ORDER BY start")
-  LiveData<List<Task>> select();
+  LiveData<List<Puzzle>> select();
 }
