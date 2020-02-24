@@ -18,19 +18,15 @@ import java.util.List;
 public interface ImageDao {
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  Single<Long> insert(Image image);
-
-  @Insert(onConflict = OnConflictStrategy.IGNORE)
   Single<List<Long>> insert(Collection<Image> image);
 
-
-  @Update
-  int update(Image image);
+  @Update(onConflict = OnConflictStrategy.IGNORE)
+  Single<Long> insert(Image image);
 
   @Delete
   Single<Integer> delete(Image... images);
 
-  @Query("SELECT * FROM Image ORDER BY title")
-  LiveData<List<Image>> select();
+  @Query("SELECT * FROM Image WHERE path ORDER BY title")
+  LiveData<List<Image>> selectAll();
 
 }

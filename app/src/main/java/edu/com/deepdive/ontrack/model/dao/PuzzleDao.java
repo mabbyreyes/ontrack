@@ -17,18 +17,15 @@ import java.util.List;
 public interface PuzzleDao {
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  Single<Long> insert(Puzzle puzzle);
-
-  @Insert(onConflict = OnConflictStrategy.IGNORE)
   Single<List<Long>> insert(Collection<Puzzle> puzzle);
 
-  @Update
-  int update(Puzzle puzzle);
+  @Update(onConflict = OnConflictStrategy.IGNORE)
+  Single<Long> insert(Puzzle puzzle);
 
   @Delete
   Single<Integer> delete(Puzzle... puzzles);
 
-  @Query("SELECT * FROM Puzzle ORDER BY start")
-  LiveData<List<Puzzle>> select();
+  @Query("SELECT * FROM Puzzle WHERE success ORDER BY start")
+  LiveData<List<Puzzle>> selectSuccessful();
 
 }

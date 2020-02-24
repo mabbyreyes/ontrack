@@ -17,13 +17,10 @@ import java.util.List;
 public interface TaskDao {
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  Single<Long> insert(Task task);
-
-  @Insert(onConflict = OnConflictStrategy.IGNORE)
   Single<List<Long>> insert(Collection<Task> task);
 
-  @Update
-  int update(Task task);
+  @Update(onConflict = OnConflictStrategy.IGNORE)
+  Single<Long> insert(Task task);
 
   @Delete
   Single<Integer> delete(Task... tasks);

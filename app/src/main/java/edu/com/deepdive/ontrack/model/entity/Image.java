@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(
     indices = {
-        @Index(value = "path", unique = true)
+        @Index(value = "path", unique = true),
+        @Index(value = "title", unique = true)
     }
 )
 
