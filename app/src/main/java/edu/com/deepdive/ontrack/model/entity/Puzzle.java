@@ -15,10 +15,8 @@ import java.util.Date;
             childColumns = "image_id",
             onDelete = ForeignKey.CASCADE
         )
-    },
-    indices = {
-        @Index(value = "image_id")
-}
+    }
+
 )
 public class Puzzle {
 

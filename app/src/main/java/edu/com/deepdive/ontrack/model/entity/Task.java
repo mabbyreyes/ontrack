@@ -15,9 +15,6 @@ import java.util.Date;
             childColumns = "puzzle_id",
             onDelete = ForeignKey.CASCADE
         )
-    },
-    indices = {
-        @Index(value = "puzzle_id")
     }
 )
 public class Task {

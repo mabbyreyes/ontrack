@@ -21,7 +21,7 @@ public interface ImageDao {
   Single<List<Long>> insert(Collection<Image> image);
 
   @Update(onConflict = OnConflictStrategy.IGNORE)
-  Single<Long> insert(Image image);
+  Single<Integer> update(Image image);
 
   @Delete
   Single<Integer> delete(Image... images);

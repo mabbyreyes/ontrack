@@ -8,11 +8,7 @@ public interface OntrackService {
 
   class InstanceHolder {
 
-    private static final OntrackService INSTANCE;
-
-    static {
-
-    }
+    private static final OntrackService INSTANCE = getInstance();
 
   }
 }

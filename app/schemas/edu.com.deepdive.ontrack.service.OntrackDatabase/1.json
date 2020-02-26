@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "916df1a05e10b0306377a6bfb1c95f89",
+    "identityHash": "6f7df1f84cc56dbe6b136fdeb7b584ec",
     "entities": [
       {
         "tableName": "Image",
@@ -41,6 +41,14 @@
               "path"
             ],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Image_path` ON `${TABLE_NAME}` (`path`)"
+          },
+          {
+            "name": "index_Image_title",
+            "unique": true,
+            "columnNames": [
+              "title"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Image_title` ON `${TABLE_NAME}` (`title`)"
           }
         ],
         "foreignKeys": []
@@ -241,7 +249,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '916df1a05e10b0306377a6bfb1c95f89')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6f7df1f84cc56dbe6b136fdeb7b584ec')"
     ]
   }
 }

@@ -20,7 +20,7 @@ public interface PuzzleDao {
   Single<List<Long>> insert(Collection<Puzzle> puzzle);
 
   @Update(onConflict = OnConflictStrategy.IGNORE)
-  Single<Long> insert(Puzzle puzzle);
+  Single<Integer> update(Puzzle puzzle);
 
   @Delete
   Single<Integer> delete(Puzzle... puzzles);

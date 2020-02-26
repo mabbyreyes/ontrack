@@ -20,7 +20,7 @@ public interface TaskDao {
   Single<List<Long>> insert(Collection<Task> task);
 
   @Update(onConflict = OnConflictStrategy.IGNORE)
-  Single<Long> insert(Task task);
+  Single<Integer> update(Task task);
 
   @Delete
   Single<Integer> delete(Task... tasks);
