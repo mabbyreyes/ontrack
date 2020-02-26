@@ -30,15 +30,15 @@ This app helps keep you on top of your studying by keeping you off what distract
 #####[Puzzle](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/entity/Puzzle.java)
 #####[Task](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/entity/Task.java) 
 
-## Data Access Object (DAO) Interfaces
-#####[ImageDao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/ImageDao.java)
-#####[PuzzleDao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/PuzzleDao.java)
-#####[TaskDao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/TaskDao.java)
+## Data Access Objects
+#####[Image Dao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/ImageDao.java)
+#####[Puzzle Dao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/PuzzleDao.java)
+#####[Task Dao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/TaskDao.java)
 
 ## Database Class
-#####[OntrackDatabase](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/service/OntrackDatabase.java)
+#####[Ontrack Database](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/service/OntrackDatabase.java)
 
 ## Repository Classes
-#####[]()
-#####[]()
-#####[]()
+#####[Image Repository](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/repository/ImageRepository.java)
+#####[Puzzle Repository](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/repository/PuzzleRepository.java)
+#####[Task Repository](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/repository/TaskRepository.java)
