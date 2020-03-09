@@ -22,23 +22,4 @@ This app helps keep you on top of your studying by keeping you off what distract
 * [Image to puzzle](https://www.jigsawplanet.com/api/oembed/doc)
     * Use website as tool to generate any given photo to a puzzle and add API to application. It would not be able to function without continuous access to this service for the reason of needed puzzle pieces . 
     
-## Implementation
-* [Data definition language (DDL)](ddl.md)   
-
-## Entity Classes
-* [Image](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/entity/Image.java)
-* [Puzzle](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/entity/Puzzle.java)
-* [Task](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/entity/Task.java) 
-
-## Data Access Objects
-* [Image Dao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/ImageDao.java)
-* [Puzzle Dao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/PuzzleDao.java)
-* [Task Dao](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/dao/TaskDao.java)
-
-## Database Class
-* [Ontrack Database](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/service/OntrackDatabase.java)
-
-## Repository Classes
-* [Image Repository](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/repository/ImageRepository.java)
-* [Puzzle Repository](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/repository/PuzzleRepository.java)
-* [Task Repository](https://github.com/mabbyreyes/ontrack/blob/master/app/src/main/java/edu/com/deepdive/ontrack/model/repository/TaskRepository.java)
+## [Implementation](implementation.md)
