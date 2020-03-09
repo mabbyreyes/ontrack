@@ -12,16 +12,16 @@
     tools:layout="@layout/fragment_home"/>
 
   <fragment
-    android:id="@+id/nav_gallery"
-    android:label="@string/menu_gallery"
-    android:name="edu.com.deepdive.ontrack.controller.ui.gallery.GalleryFragment"
-    tools:layout="@layout/fragment_gallery"/>
+    android:id="@+id/nav_puzzle"
+    android:label="@string/menu_puzzle"
+    android:name="edu.com.deepdive.ontrack.controller.ui.puzzle.PuzzleFragment"
+    tools:layout="@layout/fragment_puzzle"/>
 
   <fragment
-    android:id="@+id/nav_slideshow"
-    android:label="@string/menu_slideshow"
-    android:name="edu.com.deepdive.ontrack.controller.ui.slideshow.SlideshowFragment"
-    tools:layout="@layout/fragment_slideshow"/>
+    android:id="@+id/nav_timeline"
+    android:label="@string/menu_timeline"
+    android:name="edu.com.deepdive.ontrack.controller.ui.timeline.TimelineFragment"
+    tools:layout="@layout/fragment_timeline"/>
 
   <fragment
     android:id="@+id/nav_tools"

@@ -21,5 +21,7 @@ public class OntrackApplication extends Application {
     OntrackDatabase.getInstance().getImageDao().delete().subscribeOn(Schedulers.io()).subscribe();
   }
 
+
+
   }
 
