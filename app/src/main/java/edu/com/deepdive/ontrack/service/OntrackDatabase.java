@@ -52,7 +52,7 @@ import java.util.Date;
 
     public static class Converters {
 
-      // dates to numbers, numbers to dates.
+      // Dates to numbers, numbers to dates.
       @TypeConverter
       public static Long fromDate(Date date) {
         return (date != null) ? date.getTime() : null;
