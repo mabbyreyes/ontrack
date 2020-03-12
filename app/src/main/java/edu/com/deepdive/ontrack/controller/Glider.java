@@ -4,8 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-
-import com.github.shchurov.horizontalwheelview.HorizontalWheelView;
 import java.util.Arrays;
 
 import static java.lang.Math.PI;

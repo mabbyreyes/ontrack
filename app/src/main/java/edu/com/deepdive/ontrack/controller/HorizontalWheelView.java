@@ -27,6 +27,7 @@ public class HorizontalWheelView extends View {
   public static final int SCROLL_STATE_DRAGGING = 1;
   public static final int SCROLL_STATE_SETTLING = 2;
 
+  private HorizontalWheelView horizontalWheelView;
   private Glider glider;
   private TouchHandler touchHandler;
   private double angle;
