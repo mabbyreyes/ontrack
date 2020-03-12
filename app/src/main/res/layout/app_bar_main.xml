@@ -21,14 +21,10 @@
 
   </com.google.android.material.appbar.AppBarLayout>
 
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
-    android:layout_gravity="bottom|start|end"
-    app:srcCompat="@android:drawable/ic_dialog_email"/>
+  <include layout="@layout/content_main"
+    android:layout_height="1000dp"
+    android:layout_width="match_parent"/>
 
-  <include layout="@layout/content_main"/>
+  <include layout="@layout/fragment_puzzle"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

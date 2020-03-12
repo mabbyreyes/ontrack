@@ -1,6 +1,8 @@
 package edu.com.deepdive.ontrack.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
+import androidx.core.app.ActivityCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -20,15 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
   private AppBarConfiguration mAppBarConfiguration;
 
-
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     Toolbar toolbar = findViewById(R.id.toolbar);
+    Intent intent = new Intent(this, WheelActivity.class);
+    startActivity(intent);
     setSupportActionBar(toolbar);
-    FloatingActionButton fab = findViewById(R.id.fab);
+    FloatingActionButton fab = findViewById(R.id.focus_button);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -50,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.main, menu);
     return true;
   }
+
+
 
   @Override
   public boolean onSupportNavigateUp() {
