@@ -26,8 +26,8 @@ public class WheelActivity extends AppCompatActivity {
 
   private void initViews() {
     horizontalWheelView = (HorizontalWheelView) findViewById(R.id.horizontalWheelView);
-    tvAngle = (TextView) findViewById(R.id.tvAngle);
-    ivRocket = (ImageView) findViewById(R.id.ivRocket);
+    tvAngle = findViewById(R.id.tvAngle);
+    ivRocket = findViewById(R.id.ivRocket);
   }
 
   private void setupListeners() {

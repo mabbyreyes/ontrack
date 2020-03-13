@@ -20,7 +20,11 @@ import edu.com.deepdive.ontrack.R;
 
 public class MainActivity extends AppCompatActivity {
 
+//  @BindView(R.id.toolbar)
+  Toolbar mToolbar;
+
   private AppBarConfiguration mAppBarConfiguration;
+  private WheelActivity wheelActivity;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
