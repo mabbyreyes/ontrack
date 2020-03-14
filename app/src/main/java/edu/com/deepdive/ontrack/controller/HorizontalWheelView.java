@@ -7,12 +7,14 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import edu.com.deepdive.ontrack.R;
 
 import static java.lang.Math.PI;
 
 
 public class HorizontalWheelView extends View {
+
   private static final int DP_DEFAULT_WIDTH = 200;
   private static final int DP_DEFAULT_HEIGHT = 32;
   private static final int DEFAULT_MARKS_COUNT = 40;
@@ -27,99 +29,98 @@ public class HorizontalWheelView extends View {
   public static final int SCROLL_STATE_DRAGGING = 1;
   public static final int SCROLL_STATE_SETTLING = 2;
 
-  private HorizontalWheelView horizontalWheelView;
-  private Glider glider;
-  private TouchHandler touchHandler;
+  private Glider glider = new Glider(this);
+  private TouchHandler touchHandler = new TouchHandler(this);
   private double angle;
   private boolean onlyPositiveValues;
   private boolean endLock;
-  private Listener listener;
+  private HorizontalWheelView.Listener listener;
 
   public HorizontalWheelView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    glider = new Glider(this);
-    touchHandler = new TouchHandler(this);
-    readAttrs(attrs);
+    this.readAttrs(attrs);
   }
 
   private void readAttrs(AttributeSet attrs) {
-    TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.HorizontalWheelView);
+    TypedArray a = this.getContext().obtainStyledAttributes(attrs, R.styleable.HorizontalWheelView);
     int marksCount = a.getInt(R.styleable.HorizontalWheelView_marksCount, DEFAULT_MARKS_COUNT);
-    glider.setMarksCount(marksCount);
+    this.glider.setMarksCount(marksCount);
     int normalColor = a.getColor(R.styleable.HorizontalWheelView_normalColor, DEFAULT_NORMAL_COLOR);
-    glider.setNormalColor(normalColor);
+    this.glider.setNormalColor(normalColor);
     int activeColor = a.getColor(R.styleable.HorizontalWheelView_activeColor, DEFAULT_ACTIVE_COLOR);
-    glider.setActiveColor(activeColor);
+    this.glider.setActiveColor(activeColor);
     boolean showActiveRange = a.getBoolean(R.styleable.HorizontalWheelView_showActiveRange,
         DEFAULT_SHOW_ACTIVE_RANGE);
-    glider.setShowActiveRange(showActiveRange);
+    this.glider.setShowActiveRange(showActiveRange);
     boolean snapToMarks = a.getBoolean(R.styleable.HorizontalWheelView_snapToMarks, DEFAULT_SNAP_TO_MARKS);
-    touchHandler.setSnapToMarks(snapToMarks);
-    endLock = a.getBoolean(R.styleable.HorizontalWheelView_endLock, DEFAULT_END_LOCK);
-    onlyPositiveValues = a.getBoolean(R.styleable.HorizontalWheelView_onlyPositiveValues,
+    this.touchHandler.setSnapToMarks(snapToMarks);
+    this.endLock = a.getBoolean(R.styleable.HorizontalWheelView_endLock, DEFAULT_END_LOCK);
+    this.onlyPositiveValues = a.getBoolean(R.styleable.HorizontalWheelView_onlyPositiveValues,
         DEFAULT_ONLY_POSITIVE_VALUES);
     a.recycle();
   }
 
-  public void setListener(Listener listener) {
+  public void setListener(HorizontalWheelView.Listener listener) {
     this.listener = listener;
-    touchHandler.setListener(listener);
+    this.touchHandler.setListener(listener);
   }
 
   public void setRadiansAngle(double radians) {
-    if (!checkEndLock(radians)) {
-      angle = radians % (2 * PI);
+    if (!this.checkEndLock(radians)) {
+      this.angle = radians % (2 * PI);
     }
-    if (onlyPositiveValues && angle < 0) {
-      angle += 2 * PI;
+    if (this.onlyPositiveValues && this.angle < 0) {
+      this.angle += 2 * PI;
     }
-    invalidate();
-    if (listener != null) {
-      listener.onRotationChanged(this.angle);
+
+    this.invalidate();
+    if (this.listener != null) {
+      this.listener.onRotationChanged(this.angle);
     }
   }
 
   private boolean checkEndLock(double radians) {
-    if (!endLock) {
+    if (!this.endLock) {
       return false;
+    } else {
+      boolean hit = false;
+      if (radians >= 2 * PI) {
+        this.angle = Math.nextAfter(2 * PI, Double.NEGATIVE_INFINITY);
+        hit = true;
+      } else if (this.onlyPositiveValues && radians < 0) {
+        this.angle = 0;
+        hit = true;
+      } else if (radians <= -2 * PI) {
+        this.angle = Math.nextAfter(-2 * PI, Double.POSITIVE_INFINITY);
+        hit = true;
+      }
+      if (hit) {
+        this.touchHandler.cancelFling();
+      }
+      return hit;
     }
-    boolean hit = false;
-    if (radians >= 2 * PI) {
-      angle = Math.nextAfter(2 * PI, Double.NEGATIVE_INFINITY);
-      hit = true;
-    } else if (onlyPositiveValues && radians < 0) {
-      angle = 0;
-      hit = true;
-    } else if (radians <= -2 * PI) {
-      angle = Math.nextAfter(-2 * PI, Double.POSITIVE_INFINITY);
-      hit = true;
-    }
-    if (hit) {
-      touchHandler.cancelFling();
-    }
-    return hit;
   }
 
   public void setDegreesAngle(double degrees) {
     double radians = degrees * PI / 180;
-    setRadiansAngle(radians);
+    this.setRadiansAngle(radians);
   }
 
   public void setCompleteTurnFraction(double fraction) {
     double radians = fraction * 2 * PI;
-    setRadiansAngle(radians);
+    this.setRadiansAngle(radians);
   }
 
   public double getRadiansAngle() {
-    return angle;
+    return this.angle;
   }
 
   public double getDegreesAngle() {
-    return getRadiansAngle() * 180 / PI;
+    return this.getRadiansAngle() * 180 / PI;
   }
 
   public double getCompleteTurnFraction() {
-    return getRadiansAngle() / (2 * PI);
+    return this.getRadiansAngle() / (2 * PI);
   }
 
   public void setOnlyPositiveValues(boolean onlyPositiveValues) {
@@ -131,43 +132,43 @@ public class HorizontalWheelView extends View {
   }
 
   public void setMarksCount(int marksCount) {
-    glider.setMarksCount(marksCount);
-    invalidate();
+    this.glider.setMarksCount(marksCount);
+    this.invalidate();
   }
 
   public void setShowActiveRange(boolean show) {
-    glider.setShowActiveRange(show);
-    invalidate();
+    this.glider.setShowActiveRange(show);
+    this.invalidate();
   }
 
   public void setNormaColor(int color) {
-    glider.setNormalColor(color);
-    invalidate();
+    this.glider.setNormalColor(color);
+    this.invalidate();
   }
 
   public void setActiveColor(int color) {
-    glider.setActiveColor(color);
-    invalidate();
+    this.glider.setActiveColor(color);
+    this.invalidate();
   }
 
   public void setSnapToMarks(boolean snapToMarks) {
-    touchHandler.setSnapToMarks(snapToMarks);
+    this.touchHandler.setSnapToMarks(snapToMarks);
   }
 
-  @Override
+  // override
   public boolean onTouchEvent(MotionEvent event) {
-    return touchHandler.onTouchEvent(event);
+    return this.touchHandler.onTouchEvent(event);
   }
 
-  @Override
+  //override
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    glider.onSizeChanged();
+    this.glider.onSizeChanged();
   }
 
-  @Override
+  // override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    int resolvedWidthSpec = resolveMeasureSpec(widthMeasureSpec, DP_DEFAULT_WIDTH);
-    int resolvedHeightSpec = resolveMeasureSpec(heightMeasureSpec, DP_DEFAULT_HEIGHT);
+    int resolvedWidthSpec = this.resolveMeasureSpec(widthMeasureSpec, DP_DEFAULT_WIDTH);
+    int resolvedHeightSpec = this.resolveMeasureSpec(heightMeasureSpec, DP_DEFAULT_HEIGHT);
     super.onMeasure(resolvedWidthSpec, resolvedHeightSpec);
   }
 
@@ -175,40 +176,44 @@ public class HorizontalWheelView extends View {
     int mode = MeasureSpec.getMode(measureSpec);
     if (mode == MeasureSpec.EXACTLY) {
       return measureSpec;
+    } else {
+      int defaultSize = Utils.convertToPx(dpDefault, this.getResources());
+      if (mode == MeasureSpec.AT_MOST) {
+        defaultSize = Math.min(defaultSize, MeasureSpec.getSize(measureSpec));
+      }
+      return MeasureSpec.makeMeasureSpec(defaultSize, MeasureSpec.EXACTLY);
     }
-    int defaultSize = Utils.convertToPx(dpDefault, getResources());
-    if (mode == MeasureSpec.AT_MOST) {
-      defaultSize = Math.min(defaultSize, MeasureSpec.getSize(measureSpec));
-    }
-    return MeasureSpec.makeMeasureSpec(defaultSize, MeasureSpec.EXACTLY);
   }
 
-  @Override
+  //Override
   protected void onDraw(Canvas canvas) {
-    glider.onDraw(canvas);
+    this.glider.onDraw(canvas);
   }
 
-  @Override
+  //override
   public Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
     SavedState ss = new SavedState(superState);
-    ss.angle = angle;
+    ss.angle = this.angle;
     return ss;
   }
 
-  @Override
+  // override
   public void onRestoreInstanceState(Parcelable state) {
     SavedState ss = (SavedState) state;
     super.onRestoreInstanceState(ss.getSuperState());
-    angle = ss.angle;
-    invalidate();
+    this.angle = ss.angle;
+    this.invalidate();
   }
 
   int getMarksCount() {
-    return glider.getMarksCount();
+    return this.glider.getMarksCount();
   }
 
   public static class Listener {
+    public Listener() {
+    }
+
     public void onRotationChanged(double radians) {
     }
 

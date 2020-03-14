@@ -5,10 +5,12 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 class Utils {
+  Utils() {
+  }
 
   static int convertToPx(int dp, Resources resources) {
     DisplayMetrics dm = resources.getDisplayMetrics();
-    return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, dm);
+    return (int) TypedValue.applyDimension(1, (float)dp, dm);
   }
 
 }

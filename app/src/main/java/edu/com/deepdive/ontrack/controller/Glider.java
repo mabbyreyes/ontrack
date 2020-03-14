@@ -30,7 +30,7 @@ public class Glider {
     private float[] gaps;
     private float[] shades;
     private float[] scales;
-    private int[] colorSwitches = {-1, -1, -1};
+    private int[] colorSwitches = new int[]{-1, -1, -1};
     private int viewportHeight;
     private int normalMarkWidth;
     private int normalMarkHeight;
@@ -42,77 +42,78 @@ public class Glider {
 
     Glider(HorizontalWheelView view) {
       this.view = view;
-      initDpSizes();
+      this.initDpSizes();
     }
 
     private void initDpSizes() {
-      normalMarkWidth = convertToPx(DP_NORMAL_MARK_WIDTH);
-      zeroMarkWidth = convertToPx(DP_ZERO_MARK_WIDTH);
-      cursorCornersRadius = convertToPx(DP_CURSOR_CORNERS_RADIUS);
+      this.normalMarkWidth = this.convertToPx(DP_NORMAL_MARK_WIDTH);
+      this.zeroMarkWidth = this.convertToPx(DP_ZERO_MARK_WIDTH);
+      this.cursorCornersRadius = this.convertToPx(DP_CURSOR_CORNERS_RADIUS);
     }
 
     private int convertToPx(int dp) {
-      return Utils.convertToPx(dp, view.getResources());
+      return Utils.convertToPx(dp, this.view.getResources());
     }
 
     void setMarksCount(int marksCount) {
       this.marksCount = marksCount;
-      maxVisibleMarksCount = (marksCount / 2) + 1;
-      gaps = new float[maxVisibleMarksCount];
-      shades = new float[maxVisibleMarksCount];
-      scales = new float[maxVisibleMarksCount];
+     this. maxVisibleMarksCount = (marksCount / 2) + 1;
+      this.gaps = new float[this.maxVisibleMarksCount];
+      this.shades = new float[this.maxVisibleMarksCount];
+      this.scales = new float[this.maxVisibleMarksCount];
     }
 
     void setNormalColor(int color) {
-      normalColor = color;
+      this.normalColor = color;
     }
 
     void setActiveColor(int color) {
-      activeColor = color;
+      this.activeColor = color;
     }
 
     void setShowActiveRange(boolean show) {
-      showActiveRange = show;
+      this.showActiveRange = show;
     }
 
     void onSizeChanged() {
-      viewportHeight = view.getHeight() - view.getPaddingTop() - view.getPaddingBottom();
-      normalMarkHeight = (int) (viewportHeight * NORMAL_MARK_RELATIVE_HEIGHT);
-      zeroMarkHeight = (int) (viewportHeight * ZERO_MARK_RELATIVE_HEIGHT);
-      setupCursorRect();
+      this.viewportHeight = view.getHeight() - view.getPaddingTop() - view.getPaddingBottom();
+      this.normalMarkHeight = (int) ((float)this.viewportHeight * NORMAL_MARK_RELATIVE_HEIGHT);
+      this.zeroMarkHeight = (int) ((float)this.viewportHeight * ZERO_MARK_RELATIVE_HEIGHT);
+      this.setupCursorRect();
     }
 
     private void setupCursorRect() {
-      int cursorHeight = (int) (viewportHeight * CURSOR_RELATIVE_HEIGHT);
-      cursorRect.top = view.getPaddingTop() + (viewportHeight - cursorHeight) / 2;
-      cursorRect.bottom = cursorRect.top + cursorHeight;
-      int cursorWidth = convertToPx(DP_CURSOR_WIDTH);
-      cursorRect.left = (view.getWidth() - cursorWidth) / 2;
-      cursorRect.right = cursorRect.left + cursorWidth;
+      int cursorHeight = (int) ((float)this.viewportHeight * CURSOR_RELATIVE_HEIGHT);
+      this.cursorRect.top = (float)(this.view.getPaddingTop() + (this.viewportHeight - cursorHeight) / 2);
+      this.cursorRect.bottom = this.cursorRect.top + (float)cursorHeight;
+      int cursorWidth = this.convertToPx(DP_CURSOR_WIDTH);
+      this.cursorRect.left = (float)((this.view.getWidth() - cursorWidth) / 2);
+      this.cursorRect.right = this.cursorRect.left + (float)cursorWidth;
     }
 
     int getMarksCount() {
-      return marksCount;
+      return this.marksCount;
     }
 
     void onDraw(Canvas canvas) {
-      double step = 2 * PI / marksCount;
-      double offset = (PI / 2 - view.getRadiansAngle()) % step;
+      double step = 2 * PI / (double)this.marksCount;
+      double offset = (PI / 2 - this.view.getRadiansAngle()) % step;
       if (offset < 0) {
         offset += step;
       }
-      setupGaps(step, offset);
-      setupShadesAndScales(step, offset);
-      int zeroIndex = calcZeroIndex(step);
-      setupColorSwitches(step, offset, zeroIndex);
-      drawMarks(canvas, zeroIndex);
-      drawCursor(canvas);
+      this.setupGaps(step, offset);
+      this.setupShadesAndScales(step, offset);
+      int zeroIndex = this.calcZeroIndex(step);
+      this.setupColorSwitches(step, offset, zeroIndex);
+      this.drawMarks(canvas, zeroIndex);
+      this.drawCursor(canvas);
     }
 
     private void setupGaps(double step, double offset) {
-      gaps[0] = (float) sin(offset / 2);
-      float sum = gaps[0];
+      this.gaps[0] = (float) Math.sin(offset / 2);
+      float sum = this.gaps[0];
       double angle = offset;
+      // come fix
       int n = 1;
       while (angle + step <= PI) {
         gaps[n] = (float) sin(angle + step / 2);
@@ -120,117 +121,119 @@ public class Glider {
         angle += step;
         n++;
       }
-      float lastGap = (float) sin((PI + angle) / 2);
+
+      float lastGap = (float) Math.sin((PI + angle) / 2);
       sum += lastGap;
-      if (n != gaps.length) {
-        gaps[gaps.length - 1] = -1;
+      if (n != this.gaps.length) {
+        this.gaps[this.gaps.length - 1] = -1;
       }
-      float k = view.getWidth() / sum;
-      for (int i = 0; i < gaps.length; i++) {
-        if (gaps[i] != -1) {
-          gaps[i] *= k;
+
+      float k = (float)this.view.getWidth() / sum;
+
+      for (int i = 0; i < this.gaps.length; i++) {
+        if (this.gaps[i] != -1) {
+          float[] var10000 = this.gaps;
+          var10000[i] *= k;
         }
       }
     }
 
     private void setupShadesAndScales(double step, double offset) {
       double angle = offset;
-      for (int i = 0; i < maxVisibleMarksCount; i++) {
-        double sin = sin(angle);
-        shades[i] = (float) (1 - SHADE_RANGE * (1 - sin));
-        scales[i] = (float) (1 - SCALE_RANGE * (1 - sin));
+
+      for (int i = 0; i < this.maxVisibleMarksCount; i++) {
+        double sin = Math.sin(angle);
+        this.shades[i] = (float) (1 - SHADE_RANGE * (1 - sin));
+        this.scales[i] = (float) (1 - SCALE_RANGE * (1 - sin));
         angle += step;
       }
     }
 
     private int calcZeroIndex(double step) {
       double twoPi = 2 * PI;
-      double normalizedAngle = (view.getRadiansAngle() + PI / 2 + twoPi) % twoPi;
-      if (normalizedAngle > PI) {
-        return -1;
-      }
-      return (int) ((PI - normalizedAngle) / step);
+      double normalizedAngle = (this.view.getRadiansAngle() + PI / 2 + twoPi) % twoPi;
+      return normalizedAngle > PI ? -1 : (int)((PI - normalizedAngle) / step);
     }
 
     private void setupColorSwitches(double step, double offset, int zeroIndex) {
-      if (!showActiveRange) {
-        Arrays.fill(colorSwitches, -1);
+      if (!this.showActiveRange) {
+        Arrays.fill(this.colorSwitches, -1);
         return;
-      }
-      double angle = view.getRadiansAngle();
-      int afterMiddleIndex = 0;
-      if (offset < PI / 2) {
-        afterMiddleIndex = (int) ((PI / 2 - offset) / step) + 1;
-      }
-      if (angle > 3 * PI / 2) {
-        colorSwitches[0] = 0;
-        colorSwitches[1] = afterMiddleIndex;
-        colorSwitches[2] = zeroIndex;
-      } else if (angle >= 0) {
-        colorSwitches[0] = Math.max(0, zeroIndex);
-        colorSwitches[1] = afterMiddleIndex;
-        colorSwitches[2] = -1;
-      } else if (angle < -3 * PI / 2) {
-        colorSwitches[0] = 0;
-        colorSwitches[1] = zeroIndex;
-        colorSwitches[2] = afterMiddleIndex;
-      } else if (angle < 0) {
-        colorSwitches[0] = afterMiddleIndex;
-        colorSwitches[1] = zeroIndex;
-        colorSwitches[2] = -1;
+      } else {
+        double angle = this.view.getRadiansAngle();
+        int afterMiddleIndex = 0;
+        if (offset < PI / 2) {
+          afterMiddleIndex = (int) ((PI / 2 - offset) / step) + 1;
+        }
+
+        if (angle > 3 * PI / 2) {
+          this.colorSwitches[0] = 0;
+          this.colorSwitches[1] = afterMiddleIndex;
+          this.colorSwitches[2] = zeroIndex;
+        } else if (angle >= 0) {
+          this.colorSwitches[0] = Math.max(0, zeroIndex);
+          this.colorSwitches[1] = afterMiddleIndex;
+          this.colorSwitches[2] = -1;
+        } else if (angle < -3 * PI / 2) {
+          this.colorSwitches[0] = 0;
+          this.colorSwitches[1] = zeroIndex;
+          this.colorSwitches[2] = afterMiddleIndex;
+        } else if (angle < 0) {
+          this.colorSwitches[0] = afterMiddleIndex;
+          this.colorSwitches[1] = zeroIndex;
+          this.colorSwitches[2] = -1;
+        }
       }
     }
 
     private void drawMarks(Canvas canvas, int zeroIndex) {
-      float x = view.getPaddingLeft();
-      int color = normalColor;
+      float x = (float)this.view.getPaddingLeft();
+      int color = this.normalColor;
       int colorPointer = 0;
-      for (int i = 0; i < gaps.length; i++) {
-        if (gaps[i] == -1) {
-          break;
+
+      for(int i = 0; i < this.gaps.length && this.gaps[i] != -1.0F; ++i) {
+        for(x += this.gaps[i]; colorPointer < 3 && i == this.colorSwitches[colorPointer]; ++colorPointer) {
+          color = color == this.normalColor ? this.activeColor : this.normalColor;
         }
-        x += gaps[i];
-        while (colorPointer < 3 && i == colorSwitches[colorPointer]) {
-          color = color == normalColor ? activeColor : normalColor;
-          colorPointer++;
-        }
+
         if (i != zeroIndex) {
-          drawNormalMark(canvas, x, scales[i], shades[i], color);
+          this.drawNormalMark(canvas, x, this.scales[i], this.shades[i], color);
         } else {
-          drawZeroMark(canvas, x, scales[i], shades[i]);
+          this.drawZeroMark(canvas, x, this.scales[i], this.shades[i]);
         }
       }
+
     }
 
     private void drawNormalMark(Canvas canvas, float x, float scale, float shade, int color) {
-      float height = normalMarkHeight * scale;
-      float top = view.getPaddingTop() + (viewportHeight - height) / 2;
+      float height = (float)this.normalMarkHeight * scale;
+      float top = (float)this.view.getPaddingTop() + ((float)this.viewportHeight - height) / 2;
       float bottom = top + height;
-      paint.setStrokeWidth(normalMarkWidth);
-      paint.setColor(applyShade(color, shade));
-      canvas.drawLine(x, top, x, bottom, paint);
+      this.paint.setStrokeWidth((float)this.normalMarkWidth);
+      this.paint.setColor(this.applyShade(color, shade));
+      canvas.drawLine(x, top, x, bottom, this.paint);
     }
 
     private int applyShade(int color, float shade) {
-      int r = (int) (Color.red(color) * shade);
-      int g = (int) (Color.green(color) * shade);
-      int b = (int) (Color.blue(color) * shade);
+      int r = (int) ((float)Color.red(color) * shade);
+      int g = (int) ((float)Color.green(color) * shade);
+      int b = (int) ((float)Color.blue(color) * shade);
       return Color.rgb(r, g, b);
     }
 
     private void drawZeroMark(Canvas canvas, float x, float scale, float shade) {
-      float height = zeroMarkHeight * scale;
-      float top = view.getPaddingTop() + (viewportHeight - height) / 2;
+      float height = (float)this.zeroMarkHeight * scale;
+      float top = (float)this.view.getPaddingTop() + (viewportHeight - height) / 2;
       float bottom = top + height;
-      paint.setStrokeWidth(zeroMarkWidth);
-      paint.setColor(applyShade(activeColor, shade));
-      canvas.drawLine(x, top, x, bottom, paint);
+      this.paint.setStrokeWidth((float)this.zeroMarkWidth);
+      this.paint.setColor(this.applyShade(this.activeColor, shade));
+      canvas.drawLine(x, top, x, bottom, this.paint);
     }
 
     private void drawCursor(Canvas canvas) {
-      paint.setStrokeWidth(0);
-      paint.setColor(activeColor);
-      canvas.drawRoundRect(cursorRect, cursorCornersRadius, cursorCornersRadius, paint);
+      this.paint.setStrokeWidth(0);
+      this.paint.setColor(this.activeColor);
+      canvas.drawRoundRect(this.cursorRect, (float)this.cursorCornersRadius, (float)this.cursorCornersRadius, this.paint);
     }
 
   }
