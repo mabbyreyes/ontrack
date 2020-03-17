@@ -1,15 +1,14 @@
 package edu.com.deepdive.ontrack.controller;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import com.github.shchurov.horizontalwheelview.HorizontalWheelView;
 
 import edu.com.deepdive.ontrack.R;
 import java.util.Locale;
 
-public class WheelActivity extends AppCompatActivity {
+public class WheelActivity extends Activity {
 
   private HorizontalWheelView horizontalWheelView;
   private TextView tvAngle;

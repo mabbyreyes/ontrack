@@ -25,18 +25,18 @@ class TouchHandler extends SimpleOnGestureListener {
   private static final Interpolator INTERPOLATOR = new DecelerateInterpolator(2.5F);
 
   private HorizontalWheelView view;
-  private Listener listener;
+  private HorizontalWheelView.Listener listener;
   private GestureDetector gestureDetector;
   private ValueAnimator settlingAnimator;
   private boolean snapToMarks;
-  private int scrollState = 0;
+  private int scrollState = SCROLL_STATE_IDLE;
 
   TouchHandler(HorizontalWheelView view) {
     this.view = view;
-    this.gestureDetector = new GestureDetector(view.getContext(), this);
+    gestureDetector = new GestureDetector(view.getContext(), this);
   }
 
-  void setListener(Listener listener) {
+  void setListener(HorizontalWheelView.Listener listener) {
     this.listener = listener;
   }
 
@@ -45,87 +45,87 @@ class TouchHandler extends SimpleOnGestureListener {
   }
 
   boolean onTouchEvent(MotionEvent event) {
-    this.gestureDetector.onTouchEvent(event);
+    gestureDetector.onTouchEvent(event);
     int action = event.getActionMasked();
-    if (this.scrollState != SCROLL_STATE_SETTLING
+    if (scrollState != SCROLL_STATE_SETTLING
         && (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL)) {
-      if (this.snapToMarks) {
-        this.playSettlingAnimation(this.findNearestMarkAngle(this.view.getRadiansAngle()));
+      if (snapToMarks) {
+        playSettlingAnimation(findNearestMarkAngle(view.getRadiansAngle()));
       } else {
-        this.updateScrollStateIfRequired(SCROLL_STATE_IDLE);
+        updateScrollStateIfRequired(SCROLL_STATE_IDLE);
       }
     }
     return true;
   }
 
-  // done..override
+  @Override
   public boolean onDown(MotionEvent e) {
-    this.cancelFling();
+    cancelFling();
     return true;
   }
 
   void cancelFling() {
-    if (this.scrollState == SCROLL_STATE_SETTLING) {
-      this.settlingAnimator.cancel();
+    if (scrollState == SCROLL_STATE_SETTLING) {
+      settlingAnimator.cancel();
     }
   }
 
-  // done.. override
+  @Override
   public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-    double newAngle = this.view.getRadiansAngle() + (double)(distanceX * SCROLL_ANGLE_MULTIPLIER);
-    this.view.setRadiansAngle(newAngle);
-    this.updateScrollStateIfRequired(SCROLL_STATE_DRAGGING);
+    double newAngle = view.getRadiansAngle() + distanceX * SCROLL_ANGLE_MULTIPLIER;
+    view.setRadiansAngle(newAngle);
+    updateScrollStateIfRequired(SCROLL_STATE_DRAGGING);
     return true;
   }
 
   private void updateScrollStateIfRequired(int newState) {
-    if (this.listener != null && this.scrollState != newState) {
-      this.scrollState = newState;
-      this.listener.onScrollStateChanged(newState);
+    if (listener != null && scrollState != newState) {
+      scrollState = newState;
+      listener.onScrollStateChanged(newState);
     }
   }
 
   @Override
   public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-    double endAngle = this.view.getRadiansAngle() - (double)(velocityX * FLING_ANGLE_MULTIPLIER);
-    if (this.snapToMarks) {
-      endAngle = (double) ((float) this.findNearestMarkAngle(endAngle));
+    double endAngle = view.getRadiansAngle() - velocityX * FLING_ANGLE_MULTIPLIER;
+    if (snapToMarks) {
+      endAngle = (float) this.findNearestMarkAngle(endAngle);
     }
-    this.playSettlingAnimation(endAngle);
+    playSettlingAnimation(endAngle);
     return true;
   }
 
   private double findNearestMarkAngle(double angle) {
-    double step = 2 * PI / (double) this.view.getMarksCount();
-    return (double) Math.round(angle / step) * step;
+    double step = 2 * PI / view.getMarksCount();
+    return Math.round(angle / step) * step;
   }
 
   private void playSettlingAnimation(double endAngle) {
-    this.updateScrollStateIfRequired(SCROLL_STATE_SETTLING);
-    double startAngle = this.view.getRadiansAngle();
+    updateScrollStateIfRequired(SCROLL_STATE_SETTLING);
+    double startAngle = view.getRadiansAngle();
     int duration = (int) (Math.abs(startAngle - endAngle) * SETTLING_DURATION_MULTIPLIER);
-    this.settlingAnimator = ValueAnimator.ofFloat((float) startAngle, (float) endAngle)
+    settlingAnimator = ValueAnimator.ofFloat((float) startAngle, (float) endAngle)
         .setDuration((long) duration);
-    this.settlingAnimator.setInterpolator(INTERPOLATOR);
-    this.settlingAnimator.addUpdateListener(this.flingAnimatorListener);
-    this.settlingAnimator.addListener(this.animatorListener);
-    this.settlingAnimator.start();
+    settlingAnimator.setInterpolator(INTERPOLATOR);
+    settlingAnimator.addUpdateListener(flingAnimatorListener);
+    settlingAnimator.addListener(animatorListener);
+    settlingAnimator.start();
   }
 
-  private AnimatorUpdateListener flingAnimatorListener =
-      new AnimatorUpdateListener() {
+  private ValueAnimator.AnimatorUpdateListener flingAnimatorListener =
+      new ValueAnimator.AnimatorUpdateListener() {
 
-    // done.. override.
+    @Override
     public void onAnimationUpdate(ValueAnimator animation) {
-      TouchHandler.this.view.setRadiansAngle((double)(float) animation.getAnimatedValue());
+      view.setRadiansAngle((float) animation.getAnimatedValue());
     }
   };
 
-  private AnimatorListener animatorListener = new AnimatorListenerAdapter() {
+  private Animator.AnimatorListener animatorListener = new AnimatorListenerAdapter() {
 
-    // done.. override.
+    @Override
     public void onAnimationEnd(Animator animation) {
-      TouchHandler.this.updateScrollStateIfRequired(SCROLL_STATE_IDLE);
+      updateScrollStateIfRequired(SCROLL_STATE_IDLE);
     }
   };
 

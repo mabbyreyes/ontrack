@@ -2,7 +2,6 @@ package edu.com.deepdive.ontrack.controller;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 import android.view.View.BaseSavedState;
 
 class SavedState extends BaseSavedState {
@@ -12,28 +11,27 @@ class SavedState extends BaseSavedState {
   SavedState(Parcelable superState) {
     super(superState);
   }
-
-  // done.
+//get class?
   private SavedState(Parcel in) {
     super(in);
-    this.angle = (Double) in.readValue((ClassLoader) null);
+    angle = (Double) in.readValue(getClass().getClassLoader());
   }
 
-  // done.. override
+  @Override
   public void writeToParcel(Parcel out, int flags) {
     super.writeToParcel(out, flags);
-    out.writeValue(this.angle);
+    out.writeValue(angle);
   }
 
-  // done.. override
+  @Override
   public String toString() {
     return "HorizontalWheelView.SavedState{"
         + Integer.toHexString(System.identityHashCode(this))
-        + " angle=" + this.angle + "}";
+        + " angle=" + angle + "}";
   }
 
-  public static final Creator<SavedState> CREATOR
-      = new Creator<SavedState>() {
+  public static final Parcelable.Creator<SavedState> CREATOR
+      = new Parcelable.Creator<SavedState>() {
     public SavedState createFromParcel(Parcel in) {
       return new SavedState(in);
     }
