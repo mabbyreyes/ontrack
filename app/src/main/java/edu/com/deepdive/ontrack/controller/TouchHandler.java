@@ -25,7 +25,7 @@ class TouchHandler extends SimpleOnGestureListener {
   private static final Interpolator INTERPOLATOR = new DecelerateInterpolator(2.5F);
 
   private HorizontalWheelView view;
-  private HorizontalWheelView.Listener listener;
+  private Listener listener;
   private GestureDetector gestureDetector;
   private ValueAnimator settlingAnimator;
   private boolean snapToMarks;
@@ -36,7 +36,7 @@ class TouchHandler extends SimpleOnGestureListener {
     gestureDetector = new GestureDetector(view.getContext(), this);
   }
 
-  void setListener(HorizontalWheelView.Listener listener) {
+  void setListener(Listener listener) {
     this.listener = listener;
   }
 

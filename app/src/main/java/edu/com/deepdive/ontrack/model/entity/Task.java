@@ -32,6 +32,9 @@ public class Task {
   @ColumnInfo(index = true)
   private Date end;
 
+  @ColumnInfo(name = "time_spent")
+  private long timeSpent;
+
   @ColumnInfo(index = true)
   private boolean success;
 
@@ -68,6 +71,14 @@ public class Task {
 
   public void setEnd(Date end) {
     this.end = end;
+  }
+
+  public long getTimeSpent() {
+    return timeSpent;
+  }
+
+  public void setTimeSpent(long timeSpent) {
+    this.timeSpent = timeSpent;
   }
 
   public boolean isSuccess() {

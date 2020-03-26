@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "8b51d4e390dff23b1ac3351ed3fa7fb6",
+    "version": 1,
+    "identityHash": "7fe7d4e0a0e177c6a6fae2a14eb7266a",
     "entities": [
       {
         "tableName": "Image",
@@ -144,7 +144,7 @@
       },
       {
         "tableName": "Task",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`task_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `puzzle_id` INTEGER NOT NULL, `start` INTEGER, `end` INTEGER, `success` INTEGER NOT NULL, `block` INTEGER NOT NULL, FOREIGN KEY(`puzzle_id`) REFERENCES `Puzzle`(`puzzle_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`task_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `puzzle_id` INTEGER NOT NULL, `start` INTEGER, `end` INTEGER, `time_spent` INTEGER NOT NULL, `success` INTEGER NOT NULL, `block` INTEGER NOT NULL, FOREIGN KEY(`puzzle_id`) REFERENCES `Puzzle`(`puzzle_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -169,6 +169,12 @@
             "columnName": "end",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "timeSpent",
+            "columnName": "time_spent",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "success",
@@ -249,7 +255,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8b51d4e390dff23b1ac3351ed3fa7fb6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7fe7d4e0a0e177c6a6fae2a14eb7266a')"
     ]
   }
 }

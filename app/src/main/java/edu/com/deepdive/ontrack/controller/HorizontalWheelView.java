@@ -28,17 +28,16 @@ public class HorizontalWheelView extends View {
   public static final int SCROLL_STATE_DRAGGING = 1;
   public static final int SCROLL_STATE_SETTLING = 2;
 
-  private Glider glider;
-  private TouchHandler touchHandler;
+  private Glider glider = new Glider(this);
+  private TouchHandler touchHandler = new TouchHandler(this);
   private double angle;
   private boolean onlyPositiveValues;
   private boolean endLock;
   private Listener listener;
+  private float progress;
 
   public HorizontalWheelView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    glider = new Glider(this);
-    touchHandler = new TouchHandler(this);
     readAttrs(attrs);
   }
 
@@ -113,6 +112,15 @@ public class HorizontalWheelView extends View {
   public void setDegreesAngle(double degrees) {
     double radians = degrees * PI / 180;
    setRadiansAngle(radians);
+  }
+
+  public float getProgress() {
+    return progress;
+  }
+
+  public void setProgress(float progress) {
+    this.progress = (progress<=100) ? progress : 100;
+    invalidate();
   }
 
   public double getCompleteTurnFraction() {
@@ -212,9 +220,6 @@ public class HorizontalWheelView extends View {
   }
 
   public static class Listener {
-
-    public Listener() {
-    }
 
     public void onRotationChanged(double radians) {
     }
