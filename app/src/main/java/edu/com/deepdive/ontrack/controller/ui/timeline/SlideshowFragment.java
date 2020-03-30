@@ -1,5 +1,7 @@
 package edu.com.deepdive.ontrack.controller.ui.timeline;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,27 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import edu.com.deepdive.ontrack.CountdownFragment;
 import edu.com.deepdive.ontrack.R;
+import edu.com.deepdive.ontrack.controller.ui.home.HomeFragment;
+import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
-public class SlideshowFragment extends Fragment {
+public class SlideshowFragment extends Fragment implements ScreenShotable {
+
+  private Bitmap bitmap;
+  private View containerView;
 
   private SlideshowViewModel slideshowViewModel;
+
+  public static SlideshowFragment newInstance() {
+    return new SlideshowFragment();
+  }
+
+  @Override
+  public void onViewCreated( @NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    this.containerView = view.findViewById(R.id.container);
+  }
 
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
@@ -22,12 +40,27 @@ public class SlideshowFragment extends Fragment {
         ViewModelProviders.of(this).get(SlideshowViewModel.class);
     View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
     final TextView textView = root.findViewById(R.id.text_slideshow);
-    slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-      @Override
-      public void onChanged(@Nullable String s) {
-        textView.setText(s);
-      }
-    });
+    slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
     return root;
+  }
+
+  @Override
+  public void takeScreenShot() {
+    Thread thread = new Thread() {
+      @Override
+      public void run() {
+        Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+            containerView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        containerView.draw(canvas);
+        SlideshowFragment.this.bitmap = bitmap;
+      }
+    };
+    thread.start();
+  }
+
+  @Override
+  public Bitmap getBitmap() {
+    return bitmap;
   }
 }

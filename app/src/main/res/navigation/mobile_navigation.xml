@@ -27,7 +27,7 @@
     android:id="@+id/nav_tools"
     android:label="@string/menu_tools"
     android:name="edu.com.deepdive.ontrack.controller.ui.tools.ToolsFragment"
-    tools:layout="@layout/fragment_tools"/>
+    tools:layout="@layout/clock"/>
 
   <fragment
     android:id="@+id/nav_share"

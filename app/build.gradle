@@ -44,7 +44,7 @@ dependencies {
 
     // Side-menu animation
     implementation 'com.github.yalantis:Side-Menu.Android:1.0.2'
-    implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') { transitive = true; }
+    implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') { transitive = true }
 
     // LiveData- & ViewModel-related dependencies
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

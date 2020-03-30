@@ -17,23 +17,20 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 public class HomeFragment extends Fragment implements ScreenShotable {
 
+  private View containerView;
+  private ImageView imageView;
+  private TextView textView;
+  private int res;
+  private Bitmap bitmap;
+
   public static final String CLOSE = "Close";
   public static final String HOME = "Home";
   public static final String JIGSAW = "Jigsaw";
   public static final String TIMELINE = "Timeline";
   public static final String SETTINGS = "Settings";
 
-  private View containerView;
-  private ImageView imageView;
-  private int res;
-  private Bitmap bitmap;
-
-  public static HomeFragment newInstance(int resId) {
-    HomeFragment homeFragment = new HomeFragment();
-    Bundle bundle = new Bundle();
-    bundle.putInt(Integer.class.getName(), resId);
-    homeFragment.setArguments(bundle);
-    return homeFragment;
+  public static HomeFragment newInstance() {
+    return new HomeFragment();
   }
 
   @Override
@@ -45,13 +42,14 @@ public class HomeFragment extends Fragment implements ScreenShotable {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    res = getArguments().getInt(Integer.class.getName());
+//    res = getArguments().getInt(Integer.class.getName());
   }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+    textView = rootView.findViewById(R.id.text_text);
     imageView = rootView.findViewById(R.id.image_content);
     imageView.setClickable(true);
     imageView.setFocusable(true);

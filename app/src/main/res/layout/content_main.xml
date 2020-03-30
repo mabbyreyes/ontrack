@@ -20,26 +20,5 @@
     app:navGraph="@navigation/mobile_navigation"
     />
 
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/focus_button"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="400dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:clickable="true"
-    android:focusable="true"
-    android:backgroundTint="@color/colorDark"
-    android:text="@string/focus"
-    android:textStyle="italic"
-    android:textSize="20sp"
-    android:textCursorDrawable="@color/colorPrimary"
-    android:textColor="@color/design_default_color_surface"
-    />
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 

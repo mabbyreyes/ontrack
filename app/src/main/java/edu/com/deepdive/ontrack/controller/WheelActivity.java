@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import com.google.gson.Gson;
 import edu.com.deepdive.ontrack.R;
+import edu.com.deepdive.ontrack.controller.ui.tools.DigitFlip;
 import edu.com.deepdive.ontrack.model.entity.Task;
 import edu.com.deepdive.ontrack.service.OntrackDatabase;
 import java.util.Locale;
@@ -34,6 +35,7 @@ import yalantis.com.sidemenu.util.ViewAnimator;
 public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnimatorListener {
 
   private HorizontalWheelView horizontalWheelView;
+  private DigitFlip tabDigit1;
   private TextView tvSCTime;
   private TextView tvMusicMessage;
   private CountDownTimer mainTimer;
@@ -128,9 +130,10 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
 
   private void initViews() {
     horizontalWheelView = findViewById(R.id.horizontalWheelView);
+    tabDigit1 = findViewById(R.id.tabDigit1);
     tvSCTime = findViewById(R.id.tvSCTime);
     ivRocket = findViewById(R.id.ivRocket);
-    Button btnFocus = findViewById(R.id.focus_button);
+//    Button btnFocus = findViewById(R.id.focus_button);
     btnGiveUp = findViewById(R.id.btn_GiveUp);
     ibtnMusic = findViewById(R.id.ibtnMusic);
 

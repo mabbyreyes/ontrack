@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.Slide;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -29,8 +31,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
+import edu.com.deepdive.ontrack.CountdownFragment;
 import edu.com.deepdive.ontrack.R;
 import edu.com.deepdive.ontrack.controller.ui.home.HomeFragment;
+import edu.com.deepdive.ontrack.controller.ui.timeline.SlideshowFragment;
 import java.util.ArrayList;
 import java.util.List;
 import yalantis.com.sidemenu.interfaces.Resourceble;
@@ -43,22 +47,21 @@ public class MainActivity extends AppCompatActivity implements ViewAnimator.View
 
   private AppBarConfiguration mAppBarConfiguration;
   private WheelActivity wheelActivity;
-  private HomeFragment homeFragment;
   protected DrawerLayout drawerLayout;
   private ActionBarDrawerToggle drawerToggle;
   private List<SlideMenuItem> list = new ArrayList<>();
+  private List<View> viewList = new ArrayList<>();
   private ViewAnimator viewAnimator;
   private LinearLayout linearLayout;
-  private int res = R.drawable.puzzle_piece;
+  private View view;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    HomeFragment homeFragment = HomeFragment.newInstance(R.drawable.puzzle_piece);
-    getSupportFragmentManager().beginTransaction()
-        .replace(R.id.content_frame, homeFragment)
-        .commit();
+    HomeFragment homeFragment = HomeFragment.newInstance();
+    getSupportFragmentManager().beginTransaction().replace(
+        R.id.content_frame, homeFragment).commit();
     drawerLayout = findViewById(R.id.drawer_layout);
     drawerLayout.setScrimColor(Color.TRANSPARENT);
     linearLayout = findViewById(R.id.left_drawer);
@@ -111,14 +114,11 @@ public class MainActivity extends AppCompatActivity implements ViewAnimator.View
     drawerLayout.addDrawerListener(drawerToggle);
   }
 
-
-
   @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     drawerToggle.syncState();
   }
-
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
@@ -139,15 +139,37 @@ public class MainActivity extends AppCompatActivity implements ViewAnimator.View
     }
     switch (item.getItemId()) {
       case R.id.action_settings:
-      return true;
+        return true;
       default:
         return super.onOptionsItemSelected(item);
     }
   }
 
+  @Override
+  public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable,
+      int position) {
+    switch (slideMenuItem.getName()) {
+      case HomeFragment.CLOSE:
+        return screenShotable;
+      case HomeFragment.HOME:
+        startActivity(new Intent(this, WheelActivity.class));
+//        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment1).commit();
+//        return replaceFragment(fragment1, position);
+      case HomeFragment.JIGSAW:
+        CountdownFragment fragment2 = CountdownFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment2).commit();
+        return replaceFragment(fragment2, position);
+//      case TIMELINE:
+//        startActivity(new Intent(this, WheelActivity.class));
+      default:
+        HomeFragment fragment = HomeFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+        return replaceFragment(fragment, position);
+    }
+  }
+
   private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-    this.res = this.res == R.drawable.puzzle_piece ? R.drawable.ic_home : R.drawable.puzzle_piece;
-    View view = findViewById(R.id.content_frame);
+    view = findViewById(R.id.content_frame);
     int finalRadius = Math.max(view.getWidth(), view.getHeight());
     Animator animator = ViewAnimationUtils.createCircularReveal(
         view, 0, topPosition, 0, finalRadius);
@@ -156,11 +178,9 @@ public class MainActivity extends AppCompatActivity implements ViewAnimator.View
     findViewById(R.id.content_overlay).setBackground(
         new BitmapDrawable(getResources(), screenShotable.getBitmap()));
     animator.start();
-    HomeFragment homeFragment = HomeFragment.newInstance(this.res);
-    getSupportFragmentManager().beginTransaction().replace(
-        R.id.content_frame, homeFragment).commit();
-    return homeFragment;
-    }
+    return screenShotable;
+  }
+
 
   @Override
   public void addViewToContainer(View view) {
@@ -176,20 +196,6 @@ public class MainActivity extends AppCompatActivity implements ViewAnimator.View
   public void enableHomeButton() {
     getSupportActionBar().setHomeButtonEnabled(true);
     drawerLayout.closeDrawers();
-  }
-
-  @Override
-  public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable,
-      int position) {
-    switch (slideMenuItem.getName()) {
-      case HomeFragment.CLOSE:
-        return screenShotable;
-      case HomeFragment.HOME:
-        Intent intent = new Intent(MainActivity.this, WheelActivity.class);
-        startActivity(intent);
-      default:
-        return replaceFragment(screenShotable,position);
-    }
   }
 
 }

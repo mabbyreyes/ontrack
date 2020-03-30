@@ -46,8 +46,9 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:padding="32dp"
-      android:src="@drawable/puzzle_piece"
+      android:src="@drawable/ic_puzzle"
       android:contentDescription="TODO"/>
+
 
     <TextView
       android:id="@+id/tvSCTime"
@@ -56,6 +57,17 @@
       android:textColor="@android:color/white"
       android:textSize="50sp"
       android:text="00:00.00"/>
+
+    <edu.com.deepdive.ontrack.controller.ui.tools.DigitFlip
+      xmlns:digit="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/tabDigit1"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:layout_gravity="center"
+      android:layout_weight="1"
+      digit:backgroundColor="#000000"
+      digit:textColor="#ffffff"
+      digit:textSize="60sp" />
 
     <Button
       android:id="@+id/btn_GiveUp"

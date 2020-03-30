@@ -21,10 +21,6 @@
 
   </com.google.android.material.appbar.AppBarLayout>
 
-  <include layout="@layout/content_main"
-    android:layout_height="1000dp"
-    android:layout_width="match_parent"/>
-
-  <include layout="@layout/fragment_puzzle"/>
+  <include layout="@layout/content_main"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
