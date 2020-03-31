@@ -1,19 +1,16 @@
 package edu.com.deepdive.ontrack.controller;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -24,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import com.google.gson.Gson;
 import edu.com.deepdive.ontrack.R;
 import edu.com.deepdive.ontrack.controller.ui.tools.DigitFlip;
@@ -35,6 +33,7 @@ import yalantis.com.sidemenu.util.ViewAnimator;
 public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnimatorListener {
 
   private HorizontalWheelView horizontalWheelView;
+  private CircularProgressDrawable progress;
   private DigitFlip tabDigit1;
   private TextView tvSCTime;
   private TextView tvMusicMessage;
@@ -73,6 +72,7 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
     selectedTime = getIntent().getLongExtra("selectedTime", MIN_TIME);
     tvMusicMessage.setVisibility(View.INVISIBLE);
     listView = new ListView(this);
+//    formatTimeAndShow(MIN_TIME);
     musicNameList = new String[]{"Forest", "Cricket Chirping", "Ocean Waves"};
     musicList = new int[]{R.raw.rainforest, R.raw.cricket, R.raw.ocean_waves};
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -119,13 +119,10 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
     notification.setAutoCancel(true);
   }
 
-  public void setMusic(int musicId){
-    if(mediaPlayer != null) mediaPlayer.stop(); //stop if music playing
-    mediaPlayer = MediaPlayer.create(getApplicationContext(), musicList[musicId]);
-    mediaPlayer.setLooping(true);
-    mediaPlayer.start();
-    music = true;
-    ibtnMusic.setImageResource(R.drawable.sound_on);
+  @Override
+  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    updateUi();
   }
 
   private void initViews() {
@@ -140,6 +137,15 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
     tvMusicMessage = findViewById(R.id.tvMusicMessage);
   }
 
+  public void setMusic(int musicId){
+    if(mediaPlayer != null) mediaPlayer.stop(); //stop if music playing
+    mediaPlayer = MediaPlayer.create(getApplicationContext(), musicList[musicId]);
+    mediaPlayer.setLooping(true);
+    mediaPlayer.start();
+    music = true;
+    ibtnMusic.setImageResource(R.drawable.sound_on);
+  }
+
   private void setupListeners() {
     horizontalWheelView.setListener(new HorizontalWheelView.Listener() {
       @Override
@@ -147,6 +153,24 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
         updateUi();
       }
     });
+  }
+
+  public static String convertAngleToTimeString(float angle) {
+    String time = "";
+    float decimalValue = 3.0f - (1.0f/30.0f) * (angle % 360);
+    if (decimalValue < 0)
+      decimalValue += 12.0f;
+
+    int hours = (int)decimalValue;
+    if (hours == 0)
+      hours = 12;
+    time += (hours < 10 ? "0" + hours: hours) + ":";
+    int minutes = (int)(decimalValue * 60) % 60;
+    time += minutes < 10 ? "0" + minutes: minutes;
+    return time;
+  private void getDegreesAngle() {
+    horizontalWheelView.getDegreesAngle();
+
   }
 
     private void updateUi() {
@@ -163,8 +187,7 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
         horizontalWheelView.setProgress(progress);
         updateText();
       }
-
-        @Override
+       @Override
         public void onFinish() {
           //store skill task in database and set skilltask as true
           stopMainTimer();
@@ -216,12 +239,6 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
     String text = String.format(Locale.US, "%02d:%02d:%02d", selectedTime / 3600,
         (selectedTime % 3600) / 60, (selectedTime % 60));;
     tvSCTime.setText(text);
-  }
-
-  @Override
-  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    updateUi();
   }
 
   private void goBack(){

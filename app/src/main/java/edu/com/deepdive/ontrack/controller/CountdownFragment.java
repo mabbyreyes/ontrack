@@ -1,16 +1,15 @@
-package edu.com.deepdive.ontrack;
+package edu.com.deepdive.ontrack.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import edu.com.deepdive.ontrack.controller.ui.home.HomeFragment;
+import edu.com.deepdive.ontrack.CountdownView;
+import edu.com.deepdive.ontrack.R;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 public class CountdownFragment extends Fragment implements ScreenShotable {

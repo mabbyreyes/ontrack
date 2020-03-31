@@ -46,11 +46,11 @@ public class CountdownView extends LinearLayout implements Runnable {
     init();
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public CountdownView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    init();
-  }
+//  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//  public CountdownView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//    super(context, attrs, defStyleAttr, defStyleRes);
+//    init();
+//  }
 
   public void init() {
     setOrientation(HORIZONTAL);

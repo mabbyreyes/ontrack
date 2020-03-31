@@ -89,12 +89,16 @@
 
     <edu.com.deepdive.ontrack.controller.HorizontalWheelView
       android:id="@+id/horizontalWheelView"
+      app:snapToMarks="true"
+      app:endLock="true"
+      app:onlyPositiveValues="true"
       android:layout_width="200dp"
       android:layout_height="64dp"
       android:layout_marginTop="16dp"
       android:paddingBottom="32dp"
-      app:activeColor="@color/yellow"
-      app:normalColor="@color/white"/>
+      app:activeColor="@color/white"
+      app:normalColor="@color/colorDark"/>
+
 
 
   </LinearLayout>

@@ -6,4 +6,5 @@
   <dimen name="nav_header_height">176dp</dimen>
   <dimen name="fab_margin">16dp</dimen>
   <dimen name="sliding_menu_width">80dp</dimen>
+  <dimen name="login_button_padding">8dp</dimen>
 </resources>
