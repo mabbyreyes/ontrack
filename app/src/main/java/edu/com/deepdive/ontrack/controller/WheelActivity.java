@@ -1,16 +1,19 @@
 package edu.com.deepdive.ontrack.controller;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -21,7 +24,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle.Event;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import com.google.gson.Gson;
 import edu.com.deepdive.ontrack.R;
 import edu.com.deepdive.ontrack.controller.ui.tools.DigitFlip;
@@ -33,7 +41,6 @@ import yalantis.com.sidemenu.util.ViewAnimator;
 public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnimatorListener {
 
   private HorizontalWheelView horizontalWheelView;
-  private CircularProgressDrawable progress;
   private DigitFlip tabDigit1;
   private TextView tvSCTime;
   private TextView tvMusicMessage;
@@ -119,10 +126,32 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
     notification.setAutoCancel(true);
   }
 
+  @OnLifecycleEvent(Event.ON_STOP)
+
   @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     updateUi();
+  }
+
+  @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    super.onWindowFocusChanged(hasFocus);
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+  }
+
+  @Override
+  protected void onPostResume() {
+    super.onPostResume();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
   }
 
   private void initViews() {
@@ -258,7 +287,7 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
   }
 
   @Override
-  protected void onPause() {
+  public void onPause() {
     super.onPause();
     if (!unExpectedPause)
       return;
@@ -266,7 +295,7 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
       mediaPlayer.stop();
       ibtnMusic.setImageResource(R.drawable.sound_off);
     }
-    notification.setPriority(Notification.PRIORITY_MAX);
+    notification.setPriority(Notification.DEFAULT_VIBRATE);
 //    notification.setSmallIcon(R.drawable.forest);
     notification.setTicker("This is a ticker");
     notification.setWhen(System.currentTimeMillis());
@@ -274,12 +303,14 @@ public class WheelActivity extends MainActivity implements ViewAnimator.ViewAnim
     notification.setContentText(
         "Your puzzle is going to crumble. Return quickly or you'll lose your hardwork!");
     notification.setVibrate(new long[]{0, 1000, 1000, 500, 1000, 1000});
-    Intent intent = new Intent(this, WheelActivity.class);
-    PendingIntent pendingIntent = PendingIntent
-        .getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    notification.setContentIntent(pendingIntent);
-    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    nm.notify(UNIQUE, notification.build());
+//    Intent intent = new Intent(this, WheelActivity.class);
+//    PendingIntent pendingIntent = PendingIntent
+//        .getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//    notification.setContentIntent(pendingIntent);
+//    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//    nm.notify(UNIQUE, notification.build());
   }
+
+
 
 }

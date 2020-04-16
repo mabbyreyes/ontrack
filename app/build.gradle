@@ -59,9 +59,6 @@ dependencies {
     // Room- and SQLite-related dependencies
     def room_version = "2.2.4"
     implementation "androidx.room:room-runtime:$room_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.navigation:navigation-fragment:2.2.1'
-    implementation 'androidx.navigation:navigation-ui:2.2.1'
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
 

@@ -1,51 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:layout_gravity="center"
-  android:gravity="center_horizontal"
-  android:orientation="vertical">
-
-  <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-  <ImageButton
-    android:id="@+id/ibtnMusic"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_alignParentEnd="true"
-    android:longClickable="true"
-    android:background="@android:color/transparent"
-    app:srcCompat="@drawable/sound_off"/>
-
-  <TextView
-    android:id="@+id/tvMusicMessage"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="30dp"
-    android:layout_toStartOf="@+id/ibtnMusic"
-    android:text="Long press for list of music"
-    android:textAlignment="viewStart" />
-
-  </RelativeLayout>
-
-  <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:ignore="UselessParent">
+  android:orientation="vertical"
+  android:gravity="center">
 
     <ImageView
       android:id="@+id/ivRocket"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:padding="32dp"
+      android:padding="60dp"
       android:src="@drawable/ic_puzzle"
       android:contentDescription="TODO"/>
 
@@ -62,30 +28,11 @@
       xmlns:digit="http://schemas.android.com/apk/res-auto"
       android:id="@+id/tabDigit1"
       android:layout_width="wrap_content"
-      android:layout_height="0dp"
+      android:layout_height="20dp"
       android:layout_gravity="center"
-      android:layout_weight="1"
       digit:backgroundColor="#000000"
       digit:textColor="#ffffff"
       digit:textSize="60sp" />
-
-    <Button
-      android:id="@+id/btn_GiveUp"
-      android:layout_width="100dp"
-      android:layout_height="40dp"
-      android:layout_gravity="left"
-      android:background="@color/colorBabyBlue"
-      android:onClick="handleBtnAbortClick"
-      android:paddingLeft="10dp"
-      android:paddingRight="10dp"
-      android:shadowColor="@color/colorPrimary"
-      android:shadowDx="5"
-      android:shadowDy="5"
-      android:text="Give up"
-      android:textAlignment="center"
-      android:textAllCaps="false"
-      android:textColor="@android:color/background_light"
-      android:textSize="18sp"/>
 
     <edu.com.deepdive.ontrack.controller.HorizontalWheelView
       android:id="@+id/horizontalWheelView"
@@ -99,15 +46,22 @@
       app:activeColor="@color/white"
       app:normalColor="@color/colorDark"/>
 
-
-
-  </LinearLayout>
-
-
-
+  <Button
+    android:id="@+id/btn_GiveUp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBabyBlue"
+    android:onClick="handleBtnAbortClick"
+    android:shadowColor="@color/colorPrimary"
+    android:shadowDx="5"
+    android:shadowDy="5"
+    android:text="Give up"
+    android:textAllCaps="false"
+    android:textColor="@android:color/background_light"
+    android:textSize="18sp"/>
 <!--  <include-->
 <!--    layout="@layout/fragment_send"-->
 <!--    android:layout_width="wrap_content"-->
 <!--    android:layout_height="wrap_content"/>-->
 
-</FrameLayout>
+</LinearLayout>
